@@ -21,12 +21,42 @@ if ($_POST && $_POST['id'] > (time(NULL) - 1800)){
 		}
 		
 		$birthdate = $_POST['birth-date'];
+		$name = $_POST['name'];
+		$city = $_POST['city'];
+		
+	
+		//
+		echo "<h1>$name</h1>";
+		echo "Username: $username <br/>";
+		echo "Gender: $gender <br/>";
+		echo "Password MD5: $password <br/>";
+		echo "Birthdate: $birthdate <br/>";
+		
+		//Tries to connect into the database
+		$dblink = mysqli_connect("localhost", "contentbook_user", "1234567890", "contentbook");
+		
+		if (!$dblink){
+			die("Error " . mysqli_connect_errno() . " while trying to connect into database");
+		}
+		
+		//Insert the databases
+		$query_str = "INSERT INTO `users` (`userid`, `username`, `usersex`, `userpassword`, ";
+		$query_str .= "`userformalname`, `userbirthdate`, `usertype`, `usercountry`, ";
+		$query_str .= "`usercity`) VALUES ('0', '" . htmlspecialchars($username) . "',";
+		$query_str .= "'" . $gender . "','" . $password . "','" . htmlspecialchars($name) . "',";
+		$query_str .= "'" . $birthdate . "','1','0','" . htmlspecialchars($city) . "');";
+		
+		echo $query_str;
+		$query_res = mysqli_query($dblink, $query_str);
+		
+		if (!$query_res){
+			die("Error " . mysqli_errno($dblink) . " while trying to insert user into database");
+		}
+		
+		//Return to main page, with an Account Just Created reason.
+		header("Location: index.php?reason=900");
 		
 	}
-	
-	
-	
-	
 } else if ($_POST && $_POST['id'] < (time(NULL) - 1800)){
 	//You have a 30-min time window to fill the form, for safeness
 	die("Session expired");
