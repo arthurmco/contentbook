@@ -52,14 +52,36 @@
 		if (isset($_GET['reason'])){
 			$reason = $_GET['reason'];
 			
+			//Print messages for different 'reason' codes (since they're not always errors)
 			switch ($reason){
-				case 42
+				case 42:
 					?>
 				<p><span id="bottom-box" style="border: 1px solid blue; background-color: #a8e5ff"> 
 					The answer to life, universe and everything
 				</span></p>
 					<?php
 					break;
+					
+				case 745:
+					//Password mismatch
+					?>
+				<p><span id="bottom-box"  style="border: 1px solid red; background-color: #ffcccc"> 
+					Wrong password.
+				</span></p>
+					<?php
+					
+				
+				break;
+				
+				case 899:
+					//User not found
+					?>
+				<p><span id="bottom-box"  style="border: 1px solid red; background-color: #ffcccc"> 
+					User not found.
+				</span></p>
+					<?php
+					
+				break;
 				
 				case 900:
 					//User created
