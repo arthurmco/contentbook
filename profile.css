@@ -1,0 +1,75 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 0.8em;
+}
+
+h1#username {
+	border-top: 1px solid #efefef;
+	border-bottom: 1px solid #ababab;
+}
+
+#user_description {
+	position: relative;
+	left: 2%;
+	width: 30%;
+	height: 10%;
+}
+
+#user_friends {
+	position: relative;
+	left: 2%;
+	width: 20%;
+}
+
+#user_information {
+	position: absolute;
+	left: 50%;
+	width: 30%;
+	height: 8em;
+	top: 6em;
+	border-left: 1px solid #ababab;
+	padding-left: 3px;
+	padding-top: 3px;
+}
+
+#menubar nav {
+	background-color: #008800;
+	height: 2em;
+}
+
+#menubar nav ul li{
+	display: inline;
+	
+}
+
+#menubar nav ul li a:hover{
+	background-color: #88ff88;
+	color: #001100;
+}
+
+#menubar nav ul li a, #menubar nav ul li a#searcharea:hover{
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-top: 0.5em;
+	padding-bottom: 0.75em;
+	margin-top: 2em;
+	text-decoration: none;
+	color: #eeffee;
+}
+
+
+#menubar nav ul li a{
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-top: 0.5em;
+	padding-bottom: 0.75em;
+	margin-top: 2em;
+	text-decoration: none;
+	color: #eeffee;
+}
+
+ #menubar nav ul li a#searcharea input{
+	width: 50%;
+ }
+ 
+ 

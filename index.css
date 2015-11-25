@@ -1,6 +1,6 @@
 h1 {
-	color: blue;
-	border-bottom: 1px solid blue;
+	color: green;
+	border-bottom: 1px solid green;
 }
 body {
 	font-family: Arial, sans-serif;
@@ -19,5 +19,5 @@ form {
 }
 
 #field-username {
-	margin: 2px solid blue;
+	margin: 2px solid green;
 }
