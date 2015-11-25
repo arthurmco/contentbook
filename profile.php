@@ -34,11 +34,6 @@ if (!$logged_user){
 	header("Location: index.php?reason=n00bhacker");
 }
 
-
-
-
-
-
 ?>
 <!DOCTYPE html5>
 
@@ -47,6 +42,7 @@ if (!$logged_user){
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="profile.css" />
+		<link rel="stylesheet" type="text/css" href="menubar.css" />
 		
 		<script type="text/javascript">
 			function search_keypress(e){
@@ -71,7 +67,7 @@ if (!$logged_user){
 							id="search" onKeyPress="search_keypress(event)" />
 					</a></li>
 					<li><a href="#">Setup</a></li>
-					<li><a href="#">Exit</a></li>
+					<li><a href="logout.php">Exit</a></li>
 				</ul>
 			</nav>
 		</div>
