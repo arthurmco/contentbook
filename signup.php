@@ -1,5 +1,7 @@
 <?php	
 
+include("include/database.php");
+
 $id = -1;
 $password = 0;
 $password_check = 0;
@@ -33,7 +35,7 @@ if ($_POST && $_POST['id'] > (time(NULL) - 1800)){
 		echo "Birthdate: $birthdate <br/>";
 		
 		//Tries to connect into the database
-		$dblink = mysqli_connect("localhost", "contentbook_user", "1234567890", "contentbook");
+		$dblink = mysqli_connect(db_host, db_user, db_pass, db_name);
 		
 		if (!$dblink){
 			die("Error " . mysqli_connect_errno() . " while trying to connect into database");

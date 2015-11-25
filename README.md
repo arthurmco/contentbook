@@ -7,7 +7,7 @@ It works based on what content you post.
 
 If your friends like your content, your *points* will increase, and organizations (i.e, enterprises) can contact you.
 
-# Requirement
+# Requirements
 * PHP, at least version 5.
 * MySQL, at least version 5.x
 
@@ -15,5 +15,6 @@ If your friends like your content, your *points* will increase, and organization
 
 * Pull this project into your web server root directory.
 * Import the file `database/contentbook.sql` into your MySQL system
+* Change the file 'include/database.php' to the proper informations in your MySQL setup.
 
 *Don't forget to hide any Git hidden file.*

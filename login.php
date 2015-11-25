@@ -1,5 +1,7 @@
 <?php
 
+include("include/database.php");
+
 if (!$_POST){
 	//No POST data, return to home page
 	header("Location: index.php");
@@ -17,7 +19,7 @@ $password = md5(sha1($_POST['password']));
 ////Get the password ID, password and usertype.
 
 //Tries to connect into the database
-		$dblink = mysqli_connect("localhost", "contentbook_user", "1234567890", "contentbook");
+		$dblink = mysqli_connect(db_host, db_user, db_pass, db_name);
 		
 		if (!$dblink){
 			die("Error " . mysqli_connect_errno() . " while trying to connect into database");

@@ -4,14 +4,16 @@
 //Start a session and try to get the ID variable
 session_start();
 
+include("include/database.php");
+
 if (!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
 
 $userid = $_SESSION['id'];
 
-$dblink = mysqli_connect("localhost", "contentbook_user", "1234567890", "contentbook");
-		
+$dblink = mysqli_connect(db_host, db_user, db_pass, db_name);		
+
 if (!$dblink){
 	die("Error " . mysqli_connect_errno() . " while trying to connect into database");
 }
