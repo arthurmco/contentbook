@@ -42,20 +42,29 @@ $password = md5(sha1($_POST['password']));
 		
 		$dbpass = $result_row['userpassword'];
 		
-		if (!($password == $dbpass)){
+		if (strcmp($password, $dbpass)){
 			//Wrong password
+			
 			header("Location: index.php?reason=745");
+			die();
 		}
+
+		echo "Logging...";
+		echo $password;
+		echo "<hr/>";
+		echo $dbpass;
+		
 		
 		$userid = $result_row['userid'];
 		mysqli_free_result($result);
 		
 		
 		//Start a session and add the userid to it.
-		session_start();
+		session_start();		
 		$_SESSION["id"] = $userid;
 		
 		header("Location: profile.php");
 
+		die();
 
 ?>

@@ -1,12 +1,15 @@
 
 #menubar nav {
 	background-color: #008800;
+	
+}
+
+#menubar nav ul {
 	height: 2em;
 }
 
 #menubar nav ul li{
 	display: inline;
-	
 }
 
 #menubar nav ul li a:hover{
@@ -35,8 +38,9 @@
 	color: #eeffee;
 }
 
- #menubar nav ul li a#searcharea input{
+ #menubar nav ul li#searcharea input{
 	width: 50%;
+	background-color: #ddffdd;
  }
  
  

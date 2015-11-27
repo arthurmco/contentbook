@@ -62,10 +62,10 @@ if (!$logged_user){
 			<nav>
 				<ul>
 					<li><a href="#">Home</a></li>
-					<li><a href="#" id="searcharea">
+					<li id="searcharea">
 						<input type="text" size="20" name="search" 
 							id="search" onKeyPress="search_keypress(event)" />
-					</a></li>
+					</li>
 					<li><a href="#">Setup</a></li>
 					<li><a href="logout.php">Exit</a></li>
 				</ul>
