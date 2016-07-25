@@ -8,15 +8,24 @@ session_start();
 
 include("include/database.php");
 
-if (!isset($_SESSION['id'])){
-	header("Location: index.php");
+/* If we have a user ID to show, show it */
+if (isset($_GET['id'])) {
+    $showUser = null;
+    $userid = $_GET['id'];
+    $isOtherUser = true;
+} else {
+    /* Else, show the logged one */
+    if (!isset($_SESSION['id'])){
+            header("Location: index.php");
+    }
+    $userid = $_SESSION['id'];
+    $showUser = User::GetLoggedUser();
+    $isOtherUser = false;
 }
 
-$loggedUser = User::GetLoggedUser();
-if ($loggedUser == null) {
+if ($showUser == null) {
     /* No logged user? Get it from the database */
 
-    $userid = $_SESSION['id'];
 
     $dblink = mysqli_connect(db_host, db_user, db_pass, db_name);		
 
@@ -41,14 +50,16 @@ if ($loggedUser == null) {
     	header("Location: index.php?reason=n00bhacker");
     }
     
-    $loggedUser = new User($ret_user['userid'], 
+    $showUser = new User($ret_user['userid'], 
             $ret_user['username'], $ret_user['userpassword']);
-    $loggedUser->sex = $ret_user['usersex'];
-    $loggedUser->formalname = $ret_user['userformalname'];
-    $loggedUser->birthdate = $ret_user['userbirthdate'];
-    $loggedUser->city = $ret_user['usercity'];
-    $loggedUser->biography = $ret_user['userautobio'];
-    User::SetLoggedUser($loggedUser);
+    $showUser->sex = $ret_user['usersex'];
+    $showUser->formalname = $ret_user['userformalname'];
+    $showUser->birthdate = $ret_user['userbirthdate'];
+    $showUser->city = $ret_user['usercity'];
+    $showUser->biography = $ret_user['userautobio'];
+    
+    if ($isOtherUser === false)
+        User::SetLoggedUser($showUser);
 }
 
 ?>
@@ -72,14 +83,14 @@ if ($loggedUser == null) {
 			}
 		</script>
 	
-		<title> <?php echo $loggedUser->formalname; ?> - Contentbook </title>
+		<title> <?php echo $showUser->formalname; ?> - Contentbook </title>
 	</head>
 	
 	<body>
 		<div id="menubar">
 			<nav>
 				<ul>
-					<li><a href="#">Home</a></li>
+					<li><a href="profile.php">Home</a></li>
 					<li id="searcharea">
                                             <form id="frmSearch" style="display: inline" 
                                                       action="search.php" method="get">
@@ -93,17 +104,17 @@ if ($loggedUser == null) {
 			</nav>
 		</div>
 		<div id="profile_area">
-			<h1 id="username" > <?php echo $loggedUser->formalname; ?></h1>
+			<h1 id="username" > <?php echo $showUser->formalname; ?></h1>
 			<div id="user_description">
 				description
 			</div>
 			<div id="user_information">
 				<p>  </p>
 				<p>Gender: 
-					<?php echo ($loggedUser->sex == 0) ? "Male" : "Female"; ?>
+					<?php echo ($showUser->sex == 0) ? "Male" : "Female"; ?>
 				</p>
-				<p>City: <?php echo $loggedUser->city ?> </p>
-				<p>Birth date: <?php echo $loggedUser->birthdate ?></p>
+				<p>City: <?php echo $showUser->city ?> </p>
+				<p>Birth date: <?php echo $showUser->birthdate ?></p>
 			</div>
 			<div id="user_friends">
 				<h1>Friends</h1>

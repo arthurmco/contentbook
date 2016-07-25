@@ -79,7 +79,9 @@ if (!$result){
                         <?php
                             while ($users = mysqli_fetch_assoc($result)) {
                         ?>
-                        <li><?php echo $users['userformalname']?></li>
+                        <li><a href="profile.php?id=<?php echo $users['userid'] ?>">
+                            <?php echo $users['userformalname']?>
+                            </a></li>
                         <?php
                             }
                         ?>
