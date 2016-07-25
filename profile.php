@@ -33,30 +33,10 @@ if ($showUser == null) {
             die("Error " . mysqli_connect_errno() . " while trying to connect into database");
     }
 
-    $query_str = "SELECT * ";
-    $query_str .= "FROM `users`";
-    $query_str .= " WHERE userid = '" . $userid . "';";
-
-    $result = mysqli_query($dblink, $query_str);
-
-    if (!$result){
-            die("Error " . mysqli_errno($dblink) . " while trying to retrieve user from database");
+    $showUser = User::GetUserFromID($dblink, $userid);
+    if (!$showUser) {
+        die ("Error: " . mysqli_connect_errno() . " while trying to get user data");
     }
-
-    /* Retrieve logged user information */
-    $ret_user = mysqli_fetch_assoc($result);
-
-    if (!$ret_user){
-    	header("Location: index.php?reason=n00bhacker");
-    }
-    
-    $showUser = new User($ret_user['userid'], 
-            $ret_user['username'], $ret_user['userpassword']);
-    $showUser->sex = $ret_user['usersex'];
-    $showUser->formalname = $ret_user['userformalname'];
-    $showUser->birthdate = $ret_user['userbirthdate'];
-    $showUser->city = $ret_user['usercity'];
-    $showUser->biography = $ret_user['userautobio'];
     
     if ($isOtherUser === false)
         User::SetLoggedUser($showUser);
@@ -103,6 +83,7 @@ if ($showUser == null) {
 				</ul>
 			</nav>
 		</div>
+            <article>
 		<div id="profile_area">
 			<h1 id="username" > <?php echo $showUser->formalname; ?></h1>
 			<div id="user_description">
@@ -124,6 +105,7 @@ if ($showUser == null) {
 			
 			</div>
 		</div>
-	<?php include("include/footer.php"); mysqli_free_result($result); ?>
+            </article>
+	<?php include("include/footer.php");?>
 	</body>
 </html>
