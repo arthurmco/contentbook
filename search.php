@@ -1,7 +1,4 @@
-
 <?php
-
-//Start a session and try to get the ID variable
 session_start();
 
 include("include/database.php");
@@ -10,7 +7,14 @@ if (!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
 
+if (!isset($_GET) || !isset($_GET['s'])) {
+    header("Location: profile.php");
+}
+
 $userid = $_SESSION['id'];
+
+//Filter search string
+$str = htmlspecialchars(filter_input(INPUT_GET, 's'));
 
 $dblink = mysqli_connect(db_host, db_user, db_pass, db_name);		
 
@@ -20,18 +24,12 @@ if (!$dblink){
 
 $query_str = "SELECT * ";
 $query_str .= "FROM `users`";
-$query_str .= " WHERE userid = '" . $userid . "';";
+$query_str .= " WHERE userformalname LIKE '$str%'";
 
 $result = mysqli_query($dblink, $query_str);
 
 if (!$result){
 	die("Error " . mysqli_errno($dblink) . " while trying to retrieve user from database");
-}
-
-$logged_user = mysqli_fetch_assoc($result);
-
-if (!$logged_user){
-	header("Location: index.php?reason=n00bhacker");
 }
 
 ?>
@@ -55,47 +53,40 @@ if (!$logged_user){
 			}
 		</script>
 	
-		<title> <?php echo $logged_user['userformalname']; ?> - Contentbook </title>
+		<title> Search </title>
 	</head>
 	
 	<body>
 		<div id="menubar">
 			<nav>
 				<ul>
-					<li><a href="#">Home</a></li>
+					<li><a href="profile.php">Home</a></li>
 					<li id="searcharea">
-                                            <form id="frmSearch" style="display: inline" 
+						<form id="frmSearch" style="display: inline" 
                                                       action="search.php" method="get">
                                                 <input type="text" size="20" name="s" 
 							id="search" onKeyPress="search_keypress(event)" />
-                                            </form>
 					</li>
 					<li><a href="#">Setup</a></li>
 					<li><a href="logout.php">Exit</a></li>
 				</ul>
 			</nav>
 		</div>
-		<div id="profile_area">
-			<h1 id="username" > <?php echo $logged_user['userformalname']; ?></h1>
-			<div id="user_description">
-				description
-			</div>
-			<div id="user_information">
-				<p>  </p>
-				<p>Gender: 
-					<?php echo (($logged_user['usersex'] == 0) ? "Male" : "Female"); ?>
-				</p>
-				<p>City: <?php echo $logged_user['usercity'] ?> </p>
-				<p>Birth date: <?php echo $logged_user['userbirthdate'] ?></p>
-			</div>
-			<div id="user_friends">
-				<h1>Friends</h1>
-			</div>
-			<div id="user_posts">
-				
-			
-			</div>
-		</div>
+            <article>
+                <h1>Results</h1>
+                <section id="search_res">
+                    <ul>
+                        <?php
+                            while ($users = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <li><?php echo $users['userformalname']?></li>
+                        <?php
+                            }
+                        ?>
+                    </ul>
+                </section>
+            </article>
 	<?php include("include/footer.php"); mysqli_free_result($result); ?>
 	</body>
 </html>
+
