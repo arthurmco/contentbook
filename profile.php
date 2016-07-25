@@ -1,6 +1,8 @@
 
 <?php
 
+require 'internals/User.php';
+
 //Start a session and try to get the ID variable
 session_start();
 
@@ -10,28 +12,43 @@ if (!isset($_SESSION['id'])){
 	header("Location: index.php");
 }
 
-$userid = $_SESSION['id'];
+$loggedUser = User::GetLoggedUser();
+if ($loggedUser == null) {
+    /* No logged user? Get it from the database */
 
-$dblink = mysqli_connect(db_host, db_user, db_pass, db_name);		
+    $userid = $_SESSION['id'];
 
-if (!$dblink){
-	die("Error " . mysqli_connect_errno() . " while trying to connect into database");
-}
+    $dblink = mysqli_connect(db_host, db_user, db_pass, db_name);		
 
-$query_str = "SELECT * ";
-$query_str .= "FROM `users`";
-$query_str .= " WHERE userid = '" . $userid . "';";
+    if (!$dblink){
+            die("Error " . mysqli_connect_errno() . " while trying to connect into database");
+    }
 
-$result = mysqli_query($dblink, $query_str);
+    $query_str = "SELECT * ";
+    $query_str .= "FROM `users`";
+    $query_str .= " WHERE userid = '" . $userid . "';";
 
-if (!$result){
-	die("Error " . mysqli_errno($dblink) . " while trying to retrieve user from database");
-}
+    $result = mysqli_query($dblink, $query_str);
 
-$logged_user = mysqli_fetch_assoc($result);
+    if (!$result){
+            die("Error " . mysqli_errno($dblink) . " while trying to retrieve user from database");
+    }
 
-if (!$logged_user){
-	header("Location: index.php?reason=n00bhacker");
+    /* Retrieve logged user information */
+    $ret_user = mysqli_fetch_assoc($result);
+
+    if (!$ret_user){
+    	header("Location: index.php?reason=n00bhacker");
+    }
+    
+    $loggedUser = new User($ret_user['userid'], 
+            $ret_user['username'], $ret_user['userpassword']);
+    $loggedUser->sex = $ret_user['usersex'];
+    $loggedUser->formalname = $ret_user['userformalname'];
+    $loggedUser->birthdate = $ret_user['userbirthdate'];
+    $loggedUser->city = $ret_user['usercity'];
+    $loggedUser->biography = $ret_user['userautobio'];
+    User::SetLoggedUser($loggedUser);
 }
 
 ?>
@@ -55,7 +72,7 @@ if (!$logged_user){
 			}
 		</script>
 	
-		<title> <?php echo $logged_user['userformalname']; ?> - Contentbook </title>
+		<title> <?php echo $loggedUser->formalname; ?> - Contentbook </title>
 	</head>
 	
 	<body>
@@ -76,17 +93,17 @@ if (!$logged_user){
 			</nav>
 		</div>
 		<div id="profile_area">
-			<h1 id="username" > <?php echo $logged_user['userformalname']; ?></h1>
+			<h1 id="username" > <?php echo $loggedUser->formalname; ?></h1>
 			<div id="user_description">
 				description
 			</div>
 			<div id="user_information">
 				<p>  </p>
 				<p>Gender: 
-					<?php echo (($logged_user['usersex'] == 0) ? "Male" : "Female"); ?>
+					<?php echo ($loggedUser->sex == 0) ? "Male" : "Female"; ?>
 				</p>
-				<p>City: <?php echo $logged_user['usercity'] ?> </p>
-				<p>Birth date: <?php echo $logged_user['userbirthdate'] ?></p>
+				<p>City: <?php echo $loggedUser->city ?> </p>
+				<p>Birth date: <?php echo $loggedUser->birthdate ?></p>
 			</div>
 			<div id="user_friends">
 				<h1>Friends</h1>
