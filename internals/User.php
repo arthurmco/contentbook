@@ -19,7 +19,7 @@ class User {
             
     function __construct($id, $username, $passhash) {
         $this->id = $id;
-        $this->$username = $username;
+        $this->username = $username;
         $this->passhash = $passhash;       
     }
     /* Returns the user ID */
@@ -43,7 +43,7 @@ class User {
         
      *  @returns True on success, false on error
      */
-    public function SaveToDatabase($mysql_link) {    
+    public function SaveToDatabase($mysqli_link) {    
         if ($this->isFromDatabase === true) {
             $query_str = "UPDATE users SET usersex=" . $this->sex . ", ";
             $query_str .= "userformalname='" . $this->formalname . "', ";
@@ -60,13 +60,13 @@ class User {
             $query_str .= "'$this->birthdate',$this->type',0,'$this->city','$this->biography')";            
         }
         
-        $result = mysqli_query($mysql_link, $query_str);
+        $result = mysqli_query($mysqli_link, $query_str);
 
         if (!$result){
             return false;
         }
         
-        $last_id = mysql_insert_id($mysql_link);
+        $last_id = mysql_insert_id($mysqli_link);
         if (!$this->isFromDatabase) {
             /* Update id */
             $this->id = $last_id;
@@ -77,7 +77,7 @@ class User {
     /*** Static functions ***/
     
     
-    /* Get an user from database given its ID */
+    /* Get an user from database given its ID, or null if it isn't found */
     public static function GetUserFromID($mysqli_link, $id) {
         $query_str = "SELECT * ";
         $query_str .= "FROM `users`";
@@ -93,7 +93,7 @@ class User {
         $ret_user = mysqli_fetch_assoc($result);
 
         if (!$ret_user){
-            header("Location: index.php?reason=n00bhacker");
+            return null;
         }
     
         $showUser = new User($ret_user['userid'], 
