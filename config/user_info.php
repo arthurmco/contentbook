@@ -1,12 +1,11 @@
-
 <?php
 
-require 'internals/User.php';
+require '../internals/User.php';
 
 //Start a session and try to get the ID variable
 session_start();
 
-include("include/database.php");
+include("../include/database.php");
 
 /* If we have a user ID to show, show it */
 if (isset($_GET['id'])) {
@@ -49,8 +48,8 @@ if ($showUser == null) {
 
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="profile.css" />
-		<link rel="stylesheet" type="text/css" href="menubar.css" />
+		<link rel="stylesheet" type="text/css" href="../profile.css" />
+		<link rel="stylesheet" type="text/css" href="../menubar.css" />
 
 		<script type="text/javascript">
 			function search_keypress(e){
@@ -70,42 +69,27 @@ if ($showUser == null) {
 		<div id="menubar">
 			<nav>
 				<ul>
-					<li><a href="profile.php">Home</a></li>
+					<li><a href="../profile.php">Home</a></li>
 					<li id="searcharea">
                         <form id="frmSearch" style="display: inline"
-                            action="search.php" method="get">
+                            action="../search.php" method="get">
                         <input type="text" size="20" name="s"
 							id="search" onKeyPress="search_keypress(event)" />
                         </form>
 					</li>
-					<li><a href="setup.php">Setup</a></li>
-					<li><a href="logout.php">Exit</a></li>
+					<li><a href="../setup.php">Setup</a></li>
+					<li><a href="../logout.php">Exit</a></li>
 				</ul>
 			</nav>
 		</div>
-            <article>
-		<div id="profile_area">
-			<h1 id="username" > <?php echo $showUser->formalname; ?></h1>
-			<div id="user_description">
-				description
-			</div>
-			<div id="user_information">
-				<p>  </p>
-				<p>Gender:
-					<?php echo ($showUser->sex == 0) ? "Male" : "Female"; ?>
-				</p>
-				<p>City: <?php echo $showUser->city ?> </p>
-				<p>Birth date: <?php echo $showUser->birthdate ?></p>
-			</div>
-			<div id="user_friends">
-				<h1>Friends</h1>
-			</div>
-			<div id="user_posts">
+        <article>
+		    <h1>Set user information</h1>
+            <form action="">
+
+            </form>
 
 
-			</div>
-		</div>
-            </article>
+        </article>
 	<?php include("include/footer.php");?>
 	</body>
 </html>

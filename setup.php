@@ -1,4 +1,3 @@
-
 <?php
 
 require 'internals/User.php';
@@ -83,29 +82,15 @@ if ($showUser == null) {
 				</ul>
 			</nav>
 		</div>
-            <article>
-		<div id="profile_area">
-			<h1 id="username" > <?php echo $showUser->formalname; ?></h1>
-			<div id="user_description">
-				description
-			</div>
-			<div id="user_information">
-				<p>  </p>
-				<p>Gender:
-					<?php echo ($showUser->sex == 0) ? "Male" : "Female"; ?>
-				</p>
-				<p>City: <?php echo $showUser->city ?> </p>
-				<p>Birth date: <?php echo $showUser->birthdate ?></p>
-			</div>
-			<div id="user_friends">
-				<h1>Friends</h1>
-			</div>
-			<div id="user_posts">
+        <article>
+		    <h1>Setup</h1>
+
+            <ul id="setup_items">
+                <li><a href="config/user_info.php">Set user information</a></li>
+            </ul>
 
 
-			</div>
-		</div>
-            </article>
+        </article>
 	<?php include("include/footer.php");?>
 	</body>
 </html>
