@@ -7,24 +7,22 @@ include("internals/User.php");
     <head>
         <meta charset="UTF-8">
         <title>Test</title>
+        
+        <script type="text/javascript" >
+            function load_data() {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.status == 200 && xmlhttp.readyState == 4) {
+                        document.getElementById("json_data").innerHTML = xmlhttp.responseText;
+                    }
+                };
+                
+                xmlhttp.open("GET", "config/get_user_info.php?name=Test", true);
+                xmlhttp.send();
+            }
+        </script>
     </head>
-    <body>
-        <?php
-        // put your code here
-            $mysqli_link = @mysqli_connect(db_host, db_user, db_pass, db_name);
-            
-            if (!$mysqli_link) {
-                die('{"error":' . mysqli_connect_errno() . 
-                        ',"string":"' . mysqli_connect_error() . '"}');
-            }
-           
-            $user = User::GetUserFromID($mysqli_link, 1);
-
-            if ($user) {
-                echo json_encode($user);
-            } else {
-                echo "{}";
-            }
-        ?>
+    <body onload="load_data()">
+        <div id="json_data"></div>
     </body>
 </html>

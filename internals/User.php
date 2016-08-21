@@ -108,6 +108,38 @@ class User {
         return $showUser;
     }
     
+    /* Get an array of users given a name, or null if it isn't found */
+    public static function GetUsersFromFormalName($mysqli_link, $name) {
+        $query_str = "SELECT * ";
+        $query_str .= "FROM `users`";
+        $query_str .= " WHERE userformalname LIKE '" . $name . "%';";
+
+        $result = mysqli_query($mysqli_link, $query_str);
+
+        if (!$result){
+            return null;
+        }
+
+        /* Retrieve logged user information */
+        $users = array();
+        while ($ret_user = mysqli_fetch_assoc($result)) {
+    
+            $showUser = new User($ret_user['userid'], 
+                $ret_user['username'], $ret_user['userpassword']);
+            $showUser->sex = $ret_user['usersex'];
+            $showUser->formalname = $ret_user['userformalname'];
+            $showUser->birthdate = $ret_user['userbirthdate'];
+            $showUser->city = $ret_user['usercity'];
+            $showUser->biography = $ret_user['userautobio'];
+            $showUser->isFromDatabase = true;
+            array_push($users, $showUser);
+        }
+        mysqli_free_result($result); 
+        
+        return $users;
+
+    }
+    
     
     
 }

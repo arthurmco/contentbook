@@ -18,10 +18,15 @@ class Post {
     private $userID = 0;
     private $post_date;
     
+    /* The post type.
+     * Valid types are: POST_TEXT, POST_IMAGE, POST_AUDIO and POST_VIDEO 
+     */
+    private $post_type;
+    
     /* The 'User' object that owns this post */
     public $owner = null;
     
-   
+    public $message;
     public $content;
     
     private $isFromDatabase = false;
