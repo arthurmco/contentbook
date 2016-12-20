@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `usertype` tinyint(4) NOT NULL,
   `usercountry` smallint(6) NOT NULL,
   `usercity` varchar(90) DEFAULT NULL,
-  `userautobio` text NOT NULL,
+  `userautobio` text,
   PRIMARY KEY (`userid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
